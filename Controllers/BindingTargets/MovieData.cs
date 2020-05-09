@@ -4,8 +4,8 @@ namespace DVDMovie.Models.BindingTargets
 {
     public class MovieData
     {
-        [Required]
-        public string Image {get; set;}
+        // [Required]
+        // public string Image {get; set;}
         [Required]
         public string Name {get; set;}
         [Required]

@@ -33,4 +33,16 @@ export class AppComponent {
     "A head chef quits his restaurant job and buys a food truck", 100, s);
     this.repo.creatMovieAndStudio(m, s);
   }
+
+  replaceMovie(){
+    let m = this.repo.movies[0];
+    m.name = "Modified Name";
+    m.category = "Modified Category";
+    this.repo.replaceMovie(m);
+  }
+
+  replaceStudio(){
+    let s = new Studio(3, "Modified Studio", "New York", "NY");
+    this.repo.replaceStudio(s);
+  }
 }

@@ -82,6 +82,28 @@ export class Repository {
         })
     }
 
+    replaceMovie(mov: Movie){
+        let data = {
+            //Image:mov.image, 
+            name: mov.name,
+            category: mov.category,
+            description: mov.description,
+            price: mov.price,
+            studio: mov.studio ? mov.studio.studioId : 0
+        };
+        this.http.put(moviesUrl+"/"+mov.movieId, data)
+            .subscribe(response => this.getMovies());
+    }
+
+    replaceStudio(stu: Studio){
+        let data = {
+            name: stu.name, city: stu.city, state:stu.state
+        };
+        this.http.put(studiosUrl+"/"+stu.studioId,data)
+            .subscribe(response => this.getStudios());
+    }
+    
+
     movie : Movie;
     movies : Movie[];
     studios : Studio[] = [];

@@ -13,7 +13,7 @@ namespace DVDMovie.Controllers
             context = ctx;
         }
         [HttpGet]
-        public IEnumerable<Movie> GetStudios()
+        public IEnumerable<Studio> GetStudios()
         {
             return context.Studios;
         }
@@ -29,6 +29,21 @@ namespace DVDMovie.Controllers
             }
             else
             {
+                return BadRequest(ModelState);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult ReplaceStudio(long id, [FromBody] StudioData sdata)
+        {
+            if(ModelState.IsValid)
+            {
+                Studio s = sdata.Studio;
+                s.StudioId = id;
+                context.Update(s);
+                context.SaveChanges();
+                return Ok();
+            }else{
                 return BadRequest(ModelState);
             }
         }
