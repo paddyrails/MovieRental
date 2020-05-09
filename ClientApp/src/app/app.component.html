@@ -1,0 +1,46 @@
+<!-- 
+<table class="table table-sm table-striped">
+  <tr><th colspan="2" class="bg-info">Movie</th></tr>
+  <tr>
+    <th>Name</th>
+    <td>{{ movie?.name || 'Loading data'}}</td>
+  </tr>
+  <tr>
+    <th>Category</th>
+    <td>{{movie?.category || 'Loading data'}}</td>
+  </tr>
+  <tr>
+    <th>Name</th>
+    <td>{{movie?.description || 'Loading data'}}</td>
+  </tr>
+  <tr>
+    <th>Name</th>
+    <td>{{movie?.price || 'Loading data'}}</td>
+  </tr>  
+  <tr><th colspan="2" class="bg-info">Studio</th></tr>
+  <tr><th>Name</th><td>{{movie?.studio?.name}}</td></tr>
+  <tr><th>City</th><td>{{movie?.studio?.city}}</td></tr>
+  <tr><th>State</th><td>{{movie?.studio?.state}}</td></tr>
+  <tr><th>Movies</th><td>{{movie?.studio?.movies?.length}}</td></tr>
+</table> -->
+
+
+<table class="table table-sm table-striped">
+  <tr>
+    <th>Name</th>
+    <th>Catgory</th>
+    <th>Price</th>
+    <th>Studio</th>
+    <th>Ratings</th>
+  </tr>
+  <tr *ngFor="let movie of movies">
+    <td>{{movie.name}}</td>
+    <td>{{movie.category}}</td>
+    <td>{{movie.price}}</td>
+    <td>{{movie.studio?.name || 'None'}}</td>
+    <td>{{movie.ratings?.length || 0}}</td>
+  </tr>
+</table>
+
+<button class="btn btn-primary m-1" (click)="createMovie()">Create Movie</button>
+<button class="btn btn-primary m-1" (click)="createMovieAndStudio()">Create Movie and Studio</button>
