@@ -33,6 +33,7 @@ namespace DVDMovie.Controllers
                     result.Studio.Movies = result.Studio.Movies.Select(s=>
                         new Movie{
                             MovieId = s.MovieId,
+                            Image = s.Image,
                             Name = s.Name,
                             Category = s.Category,
                             Description = s.Description,
@@ -52,7 +53,8 @@ namespace DVDMovie.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Movie> GetMovies(string category, string search, bool related = false)
+        public IActionResult GetMovies(string category, 
+                    string search, bool metadata = true, bool related = false)
         {
             IQueryable<Movie> query = context.Movies;
             if(!string.IsNullOrWhiteSpace(category))
@@ -80,10 +82,19 @@ namespace DVDMovie.Controllers
                         m.Ratings.ForEach(r => r.Movie = null);
                     }
                 });
-                return data;
+                return metadata ? CreateMetadata(data) : Ok(data);
             }else{
-                return query;
+                return metadata ? CreateMetadata(query) : Ok(query);
             }
+        }
+
+        private IActionResult CreateMetadata(IEnumerable<Movie> movies)
+        {
+            return Ok(new{
+                data = movies,
+                categories = context.Movies.Select(m => m.Category)
+                    .Distinct().OrderBy(m => m)
+            });
         }
 
         [HttpPost]
@@ -123,7 +134,13 @@ namespace DVDMovie.Controllers
             }
         }
 
-        
+        [HttpDelete("{id}")]
+        public IActionResult DeleteMovie(long id)
+        {
+            context.Movies.Remove(new Movie {MovieId = id});
+            context.SaveChanges();
+            return Ok();
+        }
         
     }
 }

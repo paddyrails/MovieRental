@@ -22,27 +22,35 @@ export class AppComponent {
   }
 
   createMovie(){
-    this.repo.createMovie(new Movie(0,"X-Men Final Chapter", 
+    this.repo.createMovie(new Movie(0,"bit.ly/2D8C6ha", "X-Men Final Chapter", 
     "Drama", "After the re-emergence of the world's first mutant, " +
     "the world-destroyer Apocalypse, the X-Men must unite to defeat his " +
-    "extinction level plan.",49.99, this.repo.movies[0].studio))
+    "extinction level plan.", 49.99, this.repo.movies[0].studio));
   }
   createMovieAndStudio(){
-    let s = new Studio(0,"SkyTaylor Films", "Brooklyn","NY");
-    let m = new Movie(0, "Chef", "Romance",
-    "A head chef quits his restaurant job and buys a food truck", 100, s);
+    let s = new Studio(0, "SkyTaylor Films", "Brooklyn", "NY");
+    let m = new Movie(0, "bit.ly/2D7Vtqo", "Chef", "Romance",
+      "A head chef quits his restaurant job and buys a food truck", 100, s);
     this.repo.creatMovieAndStudio(m, s);
   }
 
   replaceMovie(){
     let m = this.repo.movies[0];
-    m.name = "Modified Name";
-    m.category = "Modified Category";
+    m.name = "Green Hornet";
+    m.category = "Action";
     this.repo.replaceMovie(m);
   }
 
   replaceStudio(){
     let s = new Studio(3, "Modified Studio", "New York", "NY");
     this.repo.replaceStudio(s);
+  }
+
+  deleteMovie(){
+    this.repo.deleteMovie(1);
+  }
+
+  deleteStudio(){
+    this.repo.deleteStudio(2);
   }
 }

@@ -1,9 +1,10 @@
 import { Movie } from './movie.model';
 import { HttpClient } from '@angular/common/http';
 import {Inject, Injectable} from '@angular/core';
-import { Filter } from './configClasses.repository';
+import { Filter, Pagination } from './configClasses.repository';
 import { moveEmbeddedView } from '@angular/core/src/view';
 import { Studio } from './studio.model';
+import { PaginationComponent } from '../store/pagination/pagination.component';
 
 const moviesUrl = "/api/movies";
 const studiosUrl = "/api/studios";
@@ -12,6 +13,7 @@ const studiosUrl = "/api/studios";
 export class Repository {
 
     private filterObject = new Filter();
+    private paginationObject = new Pagination();
 
     constructor(private http: HttpClient){
         //this.filter.category = "drama";
@@ -29,10 +31,15 @@ export class Repository {
             url += "&search=" + this.filter.search;
         }
 
+        url += "&metadata=true;";
+        console.log(url);
         this.http
-            .get<Movie[]>(url)
-            .subscribe(result => {
-                this.movies = result;
+            .get<any>(url)
+            .subscribe(response => {
+                console.log(response);
+                this.movies = response.data;
+                this.categories = response.categories;
+                this.pagination.currentPage = 1
             },
             error => console.error(error)
             );
@@ -54,7 +61,7 @@ export class Repository {
 
     createMovie(mov: Movie){
         let data = {
-            //Image:mov.image, 
+            Image:mov.image, 
             name: mov.name,
             category: mov.category,
             description: mov.description,
@@ -84,7 +91,7 @@ export class Repository {
 
     replaceMovie(mov: Movie){
         let data = {
-            //Image:mov.image, 
+            Image:mov.image, 
             name: mov.name,
             category: mov.category,
             description: mov.description,
@@ -103,11 +110,26 @@ export class Repository {
             .subscribe(response => this.getStudios());
     }
     
+    deleteMovie(id: number){
+        this.http.delete(moviesUrl+"/"+ id)
+            .subscribe(response => this.getMovies());
+    }
+
+    deleteStudio(id: number){
+        this.http.delete(studiosUrl+"/"+ id)
+            .subscribe(response => this.getStudios());
+    }
 
     movie : Movie;
     movies : Movie[];
+    categories : string[] = [];
     studios : Studio[] = [];
+    
     get filter(): Filter {
         return this.filterObject;
+    }
+
+    get pagination(): Pagination {
+        return this.paginationObject;
     }
 }

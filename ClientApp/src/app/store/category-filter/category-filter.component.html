@@ -1,0 +1,15 @@
+<div class="m-1">
+    <button class="btn btn-outline-primary btn-block"
+        (click)="setCurrentCategory(null)">All Categories</button>
+    
+    <button *ngFor="let category of categories"
+    class="btn btn-outline-primary btn-block"
+    [class.active]="currentCategory == category"
+        (click)="setCurrentCategory(category)">{{category}}</button>
+</div>
+
+
+<!-- <button class="btn btn-primary m-1" (click)="setCategory('drama')">Drama</button>
+<button class="btn btn-primary m-1" (click)="setCategory('romance')">Romance</button>
+<button class="btn btn-primary m-1" (click)="setCategory('comedy')">Comedy</button>
+<button class="btn btn-primary m-1" (click)="setCategory(null)">All</button> -->

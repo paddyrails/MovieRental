@@ -7,3 +7,8 @@ export class Filter {
         this.related = false;
     }
 }
+
+export class Pagination {
+    moviesPerPage: number = 4;
+    currentPage: number = 1;
+}

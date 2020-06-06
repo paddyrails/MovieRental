@@ -8,7 +8,7 @@ namespace DVDMovie.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Studio",
+                name: "Studios",
                 columns: table => new
                 {
                     StudioId = table.Column<long>(nullable: false)
@@ -19,15 +19,16 @@ namespace DVDMovie.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Studio", x => x.StudioId);
+                    table.PrimaryKey("PK_Studios", x => x.StudioId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Movie",
+                name: "Movies",
                 columns: table => new
                 {
                     MovieId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Image = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     Category = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
@@ -36,17 +37,17 @@ namespace DVDMovie.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Movie", x => x.MovieId);
+                    table.PrimaryKey("PK_Movies", x => x.MovieId);
                     table.ForeignKey(
-                        name: "FK_Movie_Studio_StudioId",
+                        name: "FK_Movies_Studios_StudioId",
                         column: x => x.StudioId,
-                        principalTable: "Studio",
+                        principalTable: "Studios",
                         principalColumn: "StudioId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rating",
+                name: "Ratings",
                 columns: table => new
                 {
                     RatingId = table.Column<long>(nullable: false)
@@ -56,36 +57,36 @@ namespace DVDMovie.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rating", x => x.RatingId);
+                    table.PrimaryKey("PK_Ratings", x => x.RatingId);
                     table.ForeignKey(
-                        name: "FK_Rating_Movie_MovieId",
+                        name: "FK_Ratings_Movies_MovieId",
                         column: x => x.MovieId,
-                        principalTable: "Movie",
+                        principalTable: "Movies",
                         principalColumn: "MovieId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movie_StudioId",
-                table: "Movie",
+                name: "IX_Movies_StudioId",
+                table: "Movies",
                 column: "StudioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rating_MovieId",
-                table: "Rating",
+                name: "IX_Ratings_MovieId",
+                table: "Ratings",
                 column: "MovieId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Rating");
+                name: "Ratings");
 
             migrationBuilder.DropTable(
-                name: "Movie");
+                name: "Movies");
 
             migrationBuilder.DropTable(
-                name: "Studio");
+                name: "Studios");
         }
     }
 }

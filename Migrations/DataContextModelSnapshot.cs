@@ -29,6 +29,8 @@ namespace DVDMovie.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<string>("Image");
+
                     b.Property<string>("Name");
 
                     b.Property<decimal>("Price");
@@ -80,14 +82,16 @@ namespace DVDMovie.Migrations
                 {
                     b.HasOne("DVDMovie.Models.Studio", "Studio")
                         .WithMany("Movies")
-                        .HasForeignKey("StudioId");
+                        .HasForeignKey("StudioId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("DVDMovie.Models.Rating", b =>
                 {
                     b.HasOne("DVDMovie.Models.Movie", "Movie")
                         .WithMany("Ratings")
-                        .HasForeignKey("MovieId");
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
